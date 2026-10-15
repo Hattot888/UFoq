@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="إتمام الطلب التجريبي - معرض أفق للفنون المعاصرة. تجربة شراء آمنة وتوضيحية لاقتناء اللوحات الفنية.">
+  <title>إتمام الطلب التجريبي | معرض أفق للفنون</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23A75D45'/%3E%3Cpath d='M8 24 L16 8 L24 24 Z' fill='%23FAF8F5'/%3E%3C/svg%3E">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header" id="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo" aria-label="الصفحة الرئيسية لمعرض أفق للفنون">
+        <span class="brand-title">أفُـــــق</span>
+        <span class="brand-subtitle">HORIZON CONTEMPORARY ART</span>
+      </a>
+
+      <div class="header-actions">
+        <a href="cart.html" class="btn btn-outline btn-sm">&rarr; العودة للسلة</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" style="padding: var(--space-8) 0 var(--space-20);">
+    <div class="container" id="checkout-container">
+      <!-- Breadcrumbs -->
+      <nav class="breadcrumbs" aria-label="مسار التنقل">
+        <a href="index.html">الرئيسية</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="cart.html">سلة المقتنيات</a>
+        <span class="breadcrumb-separator">/</span>
+        <span aria-current="page">إتمام الطلب</span>
+      </nav>
+
+      <!-- Explicit Demonstration Notice Banner -->
+      <div class="demo-badge-bar" role="alert">
+        <span style="font-size: 1.25rem;">⚠️</span>
+        <div>
+          <strong>بيئة شراء تجريبية (Demo Checkout):</strong>
+          هذه الصفحة مخصصة لمحاكاة واختبار مسار الشراء وسلوك العميل فقط. لن يُطلب منك أي تفاصيل لبطاقات ائتمانية حقيقية، ولن يتم خصم أي مبالغ مالية.
+        </div>
+      </div>
+
+      <div class="cart-layout">
+        <!-- Customer Details & Shipping Form -->
+        <section aria-labelledby="shipping-heading">
+          <div style="background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: var(--space-6);">
+            <h1 id="shipping-heading" style="font-size: var(--font-size-xl); font-weight: 700; margin-bottom: var(--space-4); border-bottom: 1px solid var(--border-light); padding-bottom: var(--space-2);">
+              بيانات المستلم وعنوان التوصيل
+            </h1>
+
+            <form id="demo-checkout-form" novalidate>
+              <div class="form-group">
+                <label for="customer-name" class="form-label">الاسم الكامل للمقتني *</label>
+                <input
+                  type="text"
+                  id="customer-name"
+                  class="form-input"
+                  required
+                  placeholder="مثال: أحمد عبد الله"
+                  autocomplete="name"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="customer-phone" class="form-label">رقم الهاتف المحمول (للتنسيق مع مندوب الشحن) *</label>
+                <input
+                  type="tel"
+                  id="customer-phone"
+                  class="form-input"
+                  required
+                  placeholder="مثال: 01012345678"
+                  autocomplete="tel"
+                  dir="ltr"
+                  style="text-align: right;"
+                />
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+                <div class="form-group">
+                  <label for="customer-city" class="form-label">المدينة / المحافظة *</label>
+                  <select id="customer-city" class="form-select" required>
+                    <option value="القاهرة">القاهرة</option>
+                    <option value="الجيزة">الجيزة</option>
+                    <option value="الإسكندرية">الإسكندرية</option>
+                    <option value="الجونة / البحر الأحمر">الجونة / البحر الأحمر</option>
+                    <option value="المنصورة">المنصورة</option>
+                    <option value="أسوان">أسوان</option>
+                    <option value="محافظة أخرى">محافظة أخرى</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="customer-postal" class="form-label">الرمز البريدي (اختياري)</label>
+                  <input
+                    type="text"
+                    id="customer-postal"
+                    class="form-input"
+                    placeholder="11511"
+                    autocomplete="postal-code"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="customer-address" class="form-label">عنوان التوصيل بالتفصيل *</label>
+                <textarea
+                  id="customer-address"
+                  class="form-textarea"
+                  rows="3"
+                  required
+                  placeholder="اسم الشارع، رقم العقار، الشقة أو الفيلا، أي علامة مميزة..."
+                ></textarea>
+              </div>
+
+              <!-- Test Payment Options -->
+              <div style="margin-top: var(--space-6); border-top: 1px solid var(--border-light); padding-top: var(--space-4);">
+                <h3 style="font-size: var(--font-size-base); font-weight: 700; margin-bottom: var(--space-3);">
+                  طريقة الدفع التوضيحية
+                </h3>
+
+                <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+                  <label style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); border: 1px solid var(--border-color); border-radius: var(--radius-sm); cursor: pointer; background: var(--bg-main);">
+                    <input type="radio" name="payment_method" value="demo_cod" checked />
+                    <div>
+                      <strong style="font-size: var(--font-size-sm); display: block;">دفع تجريبي عند الاستلام (Demo COD)</strong>
+                      <span style="font-size: var(--font-size-xs); color: var(--text-secondary);">معاينة اللوحة وفحص شهادة الأصالة قبل السداد التجريبي</span>
+                    </div>
+                  </label>
+
+                  <label style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); border: 1px solid var(--border-color); border-radius: var(--radius-sm); cursor: pointer;">
+                    <input type="radio" name="payment_method" value="demo_transfer" />
+                    <div>
+                      <strong style="font-size: var(--font-size-sm); display: block;">تحويل بنكي تجريبي (Demo Wire Transfer)</strong>
+                      <span style="font-size: var(--font-size-xs); color: var(--text-secondary);">محاكاة إشعار التحويل البنكي لحساب المعرض</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div style="margin-top: var(--space-6);">
+                <button type="submit" class="btn btn-primary btn-block btn-lg" id="place-order-btn">
+                  تأكيد تسجيل الطلب التجريبي &larr;
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- Order Summary Sidebar -->
+        <aside class="cart-summary-box">
+          <h2 class="cart-summary-title">مقتنيات الطلب</h2>
+          <div id="checkout-items-summary" style="margin-bottom: var(--space-4);">
+            <!-- Populated dynamically by js/checkout.js -->
+          </div>
+
+          <div class="summary-row">
+            <span>الشحن والتأمين الفني:</span>
+            <span style="color: var(--color-success); font-weight: 600;">مجاني</span>
+          </div>
+
+          <div class="summary-row total-row">
+            <span>الإجمالي:</span>
+            <span id="checkout-total-amount" style="color: var(--accent-primary);">0 ج.م</span>
+          </div>
+
+          <div style="margin-top: var(--space-4); font-size: 0.75rem; color: var(--text-muted); line-height: 1.6;">
+            🛡️ هذا نموذج اختباري يوضح للمطور ومالك المتجر رحلة الشراء الكاملة ويسجل بيانات الطلب التجريبي في جدول منفصل بـ Supabase.
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>&copy; 2026 معرض أفق للفنون المعاصرة. جميع الحقوق محفوظة.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script type="module" src="js/checkout.js"></script>
+</body>
+</html>

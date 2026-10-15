@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>لوحة تحكم الإدارة والتحليلات الحية | معرض أفق للفنون</title>
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231E1C1A'/%3E%3Cpath d='M8 24 L16 8 L24 24 Z' fill='%23A75D45'/%3E%3C/svg%3E">
+</head>
+
+<body>
+
+  <!-- Loading State Overlay -->
+  <div id="admin-auth-loading"
+    style="position: fixed; inset: 0; background: #FAF8F5; z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-4);">
+    <div style="font-size: 2.5rem; animation: pulse 1.5s infinite;">🎨</div>
+    <div style="font-weight: 600; color: var(--text-primary);">جاري التحقق من الصلاحيات الإدارية وقاعدة البيانات...
+    </div>
+  </div>
+
+  <!-- Unauthorized / Unconfigured Card Display -->
+  <div id="admin-unauthorized-card" class="container" style="display: none; padding: var(--space-12) 0;"></div>
+
+  <!-- Admin Dashboard Container (Hidden until verified) -->
+  <div id="admin-dashboard-container" class="admin-shell" style="display: none;">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+      <div class="sidebar-header">
+        <div>
+          <span class="sidebar-brand-title">أفُـــــق | الإدارة</span>
+          <span style="display: block; font-size: 0.65rem; color: #8C8881;">لوحة قياس سلوك الزوار الحية</span>
+        </div>
+        <span class="sidebar-badge">مسؤول</span>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="تنقل لوحة التحكم">
+        <a href="#overview" class="sidebar-link active" data-tab="overview">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>التحليلات والمؤشرات (KPIs)</span>
+        </a>
+
+        <a href="#products" class="sidebar-link" data-tab="products">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span>إدارة كتالوج اللوحات (CRUD)</span>
+        </a>
+
+        <a href="#settings" class="sidebar-link" data-tab="settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+            </path>
+          </svg>
+          <span>إعدادات قاعدة البيانات والربط</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="index.html" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+          <span>زيارة المتجر العام &rarr;</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="admin-main">
+      <!-- Topbar Header -->
+      <header class="admin-topbar">
+        <div class="admin-topbar-left">
+          <button type="button" class="admin-mobile-toggle" id="admin-sidebar-toggle"
+            aria-label="تبديل القائمة الجانبية">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div class="admin-title-wrap">
+            <h1>لوحة التحليلات والإدارة</h1>
+            <p>بيانات حقيقية مسجلة من نشاط الزوار في قاعدة بيانات Supabase</p>
+          </div>
+        </div>
+
+        <div class="admin-topbar-right">
+          <!-- Connection Status Pill -->
+          <div id="connection-status-pill" class="health-status-badge connected">
+            <span class="status-dot"></span> فحص الاتصال...
+          </div>
+
+          <!-- Date Range Filter -->
+          <select id="date-range-filter" class="date-filter-select" aria-label="تحديد النطاق الزمني للتحليلات">
+            <option value="today">اليوم فقط</option>
+            <option value="7d" selected>آخر ٧ أيام</option>
+            <option value="30d">آخر ٣٠ يوماً</option>
+            <option value="all">كافة السجلات التاريخية</option>
+          </select>
+
+          <!-- Refresh Button -->
+          <button type="button" class="btn btn-sm btn-outline" id="refresh-dashboard-btn" title="تحديث البيانات">
+            <span>تحديث ⟳</span>
+          </button>
+
+          <!-- Export CSV -->
+          <button type="button" class="btn btn-sm btn-secondary" id="export-csv-btn"
+            title="تصدير السجلات الحالية كملف CSV">
+            <span>تصدير CSV 📥</span>
+          </button>
+
+          <!-- Admin Profile & Logout -->
+          <div
+            style="display: flex; align-items: center; gap: var(--space-2); margin-right: var(--space-2); border-right: 1px solid var(--border-color); padding-right: var(--space-3);">
+            <span id="admin-user-email"
+              style="font-size: var(--font-size-xs); font-weight: 600; max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; direction: ltr;">admin</span>
+            <button type="button" class="btn btn-sm btn-outline text-danger" id="admin-logout-btn"
+              style="color: var(--color-error); border-color: rgba(182, 66, 66, 0.3);">
+              خروج
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- TAB 1: OVERVIEW & ANALYTICS -->
+      <section id="tab-overview" class="admin-tab-section admin-content">
+        <!-- Zero state banner -->
+        <div id="analytics-zero-notice" class="demo-badge-bar"
+          style="display: none; background-color: var(--bg-card); border-color: var(--border-color); color: var(--text-secondary);">
+          <span>ℹ️ بدأ نظام التحليلات الآن؛ لا توجد أحداث مسجلة بعد في هذا النطاق الزمني. تصفح المتجر وافتح اللوحات
+            لتسجيل أولى الزيارات!</span>
+        </div>
+
+        <!-- 8 Core Business KPIs -->
+        <div class="kpi-grid">
+          <!-- 1. Site Visits -->
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-label">زيارات الموقع (Site Visits)</span>
+              <span class="kpi-icon">🌐</span>
+            </div>
+            <div class="kpi-value" id="kpi-site-visits">0</div>
+            <span class="kpi-subtext">جلسات تصفح عامة جديدة</span>
+          </div>
+
+          <!-- 2. Distinct Visitors -->
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-label">زوار مميزون (Distinct Visitors)</span>
+              <span class="kpi-icon">👤</span>
+            </div>
+            <div class="kpi-value" id="kpi-distinct-visitors">0</div>
+            <span class="kpi-subtext">معرف أول مقرب (First-Party ID)</span>
+          </div>
+
+          <!-- 3. Page Views -->
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-label">مشاهدات الصفحات (Page Views)</span>
+              <span class="kpi-icon">📄</span>
+            </div>
+            <div class="kpi-value" id="kpi-page-views">0</div>
+            <span class="kpi-subtext">إجمالي الصفحات التي تم تحميلها</span>
+          </div>
+
+          <!-- 4. Product Views -->
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-label">استعراض اللوحات (Product Views)</span>
+              <span class="kpi-icon">🎨</span>
+            </div>
+            <div class="kpi-value" id="kpi-product-views">0</div>
+            <span class="kpi-subtext">دخول صفحة تفاصيل عمل فني</span>
+          </div>
+
+          <!-- 5. Add to Cart Events -->
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-label">إضافات للسلة (Add to Cart)</span>
+              <span class="kpi-icon">🛒</span>
+            </div>
+            <div class="kpi-value" id="kpi-add-to-carts">0</div>
+            <span class="kpi-subtext">إجمالي مرات الإضافة الناجحة</span>
+          </div>
+
+          <!-- 6. Distinct Cart Visitors -->
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-label">مقتنون أضافوا للسلة</span>
+              <span class="kpi-icon">🛍️</span>
+            </div>
+            <div class="kpi-value" id="kpi-cart-visitors">0</div>
+            <span class="kpi-subtext">زوار فريدون تفاعلوا مع الشراء</span>
+          </div>
+
+          <!-- 7. Successful Signups -->
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-label">حسابات جديدة (Sign-ups)</span>
+              <span class="kpi-icon">✨</span>
+            </div>
+            <div class="kpi-value" id="kpi-signups">0</div>
+            <span class="kpi-subtext">تسجيلات حسابات جديدة مكتملة</span>
+          </div>
+
+          <!-- 8. Successful Logins -->
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-label">تسجيلات دخول (Logins)</span>
+              <span class="kpi-icon">🔑</span>
+            </div>
+            <div class="kpi-value" id="kpi-logins">0</div>
+            <span class="kpi-subtext">عمليات تسجيل دخول تفاعلية</span>
+          </div>
+        </div>
+
+        <!-- Charts Grid (Timeline & Behavioral Funnel) -->
+        <div class="charts-grid">
+          <!-- Timeline Area Chart -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div>
+                <h3 class="chart-title">تطور الزيارات واستعراض اللوحات عبر الزمن</h3>
+                <p class="chart-desc">مقارنة حركة الزيارات، مشاهدات الأعمال الفنية، والإضافات للسلة يومياً</p>
+              </div>
+            </div>
+            <div class="chart-container" id="timeline-chart-container">
+              <!-- Rendered via SVG in js/admin.js -->
+            </div>
+          </div>
+
+          <!-- Funnel Chart -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div>
+                <h3 class="chart-title">قمع التحويل السلوكي (Conversion Funnel)</h3>
+                <p class="chart-desc">تتبع مسار الزائر وتحديد مرحلة الانقطاع (Drop-off)</p>
+              </div>
+            </div>
+            <div class="chart-container" id="funnel-chart-container">
+              <!-- Rendered via js/admin.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Performance Table Card -->
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <div>
+              <h3 style="font-size: var(--font-size-base); font-weight: 700;">أداء اللوحات الفنية (Product Analytics
+                Matrix)</h3>
+              <p style="font-size: var(--font-size-xs); color: var(--text-secondary);">
+                أي اللوحات تحظى بأكبر قدر من الاهتمام ونسب الإضافة لسلة المقتنيات
+              </p>
+            </div>
+
+            <div style="display: flex; gap: var(--space-3); align-items: center; flex-wrap: wrap;">
+              <input type="search" id="perf-table-search" class="form-input" placeholder="ابحث بالاسم أو الفنان..."
+                style="padding: 0.35rem 0.65rem; font-size: var(--font-size-xs); max-width: 200px;" />
+              <select id="perf-table-sort" class="date-filter-select" aria-label="ترتيب جدول الأداء">
+                <option value="views">الأكثر مشاهدة</option>
+                <option value="addsToCart">الأكثر إضافة للسلة</option>
+                <option value="uniqueAdders">أكثر زوار فريدين أضافوا</option>
+                <option value="conversionRate">أعلى نسبة تحويل (Conversion)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th scope="col" style="width: 60px;">اللوحة</th>
+                  <th scope="col">الاسم والفنان</th>
+                  <th scope="col">السعر</th>
+                  <th scope="col">مشاهدات اللوحة (Views)</th>
+                  <th scope="col">إضافات للسلة (Adds)</th>
+                  <th scope="col">زوار فريدون أضافوها</th>
+                  <th scope="col">معدل التحويل للسلة</th>
+                </tr>
+              </thead>
+              <tbody id="analytics-products-tbody">
+                <!-- Populated dynamically via js/admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: PRODUCT MANAGEMENT (CRUD) -->
+      <section id="tab-products" class="admin-tab-section admin-content" style="display: none;">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <div>
+              <h2 style="font-size: var(--font-size-base); font-weight: 700;">إدارة كتالوج اللوحات الفنية</h2>
+              <span id="admin-products-count"
+                style="font-size: var(--font-size-xs); color: var(--text-secondary);"></span>
+            </div>
+
+            <div style="display: flex; gap: var(--space-3); align-items: center; flex-wrap: wrap;">
+              <input type="search" id="admin-products-search" class="form-input" placeholder="ابحث في الكتالوج..."
+                style="padding: 0.35rem 0.65rem; font-size: var(--font-size-xs); max-width: 220px;" />
+              <button type="button" class="btn btn-sm btn-primary" id="btn-open-create-product">
+                <span>+ إضافة عمل فني جديد</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th scope="col" style="width: 60px;">اللوحة</th>
+                  <th scope="col">الاسم والفنان</th>
+                  <th scope="col">الفئة</th>
+                  <th scope="col">السعر</th>
+                  <th scope="col">المخزون المتاح</th>
+                  <th scope="col">حالة العرض</th>
+                  <th scope="col" style="text-align: left;">إجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="admin-products-tbody">
+                <!-- Populated dynamically via js/admin-products.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: SETTINGS & DATABASE STATUS -->
+      <section id="tab-settings" class="admin-tab-section admin-content" style="display: none;">
+        <div class="admin-card" style="padding: var(--space-6);">
+          <h2
+            style="font-size: var(--font-size-lg); font-weight: 700; margin-bottom: var(--space-4); border-bottom: 1px solid var(--border-light); padding-bottom: var(--space-3);">
+            بيانات الربط مع خادم Supabase
+          </h2>
+
+          <div style="display: flex; flex-direction: column; gap: var(--space-4); max-width: 720px;">
+            <div>
+              <label class="form-label">موقع ملف الإعدادات:</label>
+              <code style="background: var(--bg-main); padding: 4px 8px; border-radius: 4px;">js/config.js</code>
+            </div>
+
+            <div>
+              <label class="form-label">بيانات التوثيق والأمان (Row Level Security):</label>
+              <p style="font-size: var(--font-size-sm); color: var(--text-secondary); line-height: 1.7;">
+                جميع جداول قاعدة البيانات (<code>products</code>, <code>analytics_events</code>,
+                <code>admin_users</code>, <code>demo_orders</code>) محمية بسياسات RLS صارمة في PostgreSQL.
+                لا يمكن لأي مستخدم عادي الاطلاع على سجلات التحليلات أو تعديل أسعار اللوحات حتى في حال محاولة تنفيذ أوامر
+                برمجية عبر وحدة التحكم بالمتصفح.
+              </p>
+            </div>
+
+            <div
+              style="background-color: var(--bg-muted); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: var(--space-4);">
+              <h3 style="font-size: var(--font-size-sm); font-weight: 700; margin-bottom: var(--space-2);">
+                كود إضافة مدير جديد إلى جدول admin_users في SQL Editor:
+              </h3>
+              <p style="font-size: var(--font-size-xs); color: var(--text-secondary); margin-bottom: var(--space-2);">
+                استبدل المعرف أدناه بمعرف المستخدم الذي تم إنشاؤه عبر Auth:
+              </p>
+              <div class="sql-snippet-box">
+                INSERT INTO public.admin_users (user_id, role)
+                VALUES ('PASTE_USER_UUID_HERE', 'admin')
+                ON CONFLICT (user_id) DO NOTHING;
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Product Create / Edit Modal -->
+  <div class="modal-backdrop" id="product-editor-modal" role="dialog" aria-modal="true"
+    aria-labelledby="product-modal-title">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="product-modal-title">بيانات العمل الفني</h3>
+        <button type="button" class="btn" id="close-product-modal-btn" aria-label="إغلاق">&times;</button>
+      </div>
+
+      <form id="product-editor-form">
+        <div class="modal-body">
+          <input type="hidden" id="product-id-hidden" />
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3);">
+            <div class="form-group">
+              <label for="form-prod-name" class="form-label">عنوان اللوحة *</label>
+              <input type="text" id="form-prod-name" class="form-input" required />
+            </div>
+
+            <div class="form-group">
+              <label for="form-prod-artist" class="form-label">اسم الفنان *</label>
+              <input type="text" id="form-prod-artist" class="form-input" required />
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-3);">
+            <div class="form-group">
+              <label for="form-prod-category" class="form-label">الفئة الفنية *</label>
+              <input type="text" id="form-prod-category" class="form-input" list="category-datalist"
+                placeholder="تجريدي، انطباعي..." required />
+              <datalist id="category-datalist">
+                <option value="تجريدي">
+                <option value="انطباعي">
+                <option value="خط عربي معاصر">
+                <option value="طبيعة صامتة">
+                <option value="مناظر طبيعية">
+                <option value="تعبيري">
+              </datalist>
+            </div>
+
+            <div class="form-group">
+              <label for="form-prod-price" class="form-label">السعر (EGP) *</label>
+              <input type="number" id="form-prod-price" class="form-input" step="0.01" min="0" required />
+            </div>
+
+            <div class="form-group">
+              <label for="form-prod-stock" class="form-label">المخزون المتاح *</label>
+              <input type="number" id="form-prod-stock" class="form-input" min="0" value="1" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="form-prod-image" class="form-label">رابط صورة اللوحة (Image URL) *</label>
+            <input type="url" id="form-prod-image" class="form-input" placeholder="https://..." dir="ltr"
+              style="text-align: right;" />
+            <span class="form-help">يتم تخزين رابط الصورة المباشر أو المحفوظ في مخزن Supabase Storage.</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3);">
+            <div class="form-group">
+              <label for="form-prod-dimensions" class="form-label">المقاس والأبعاد</label>
+              <input type="text" id="form-prod-dimensions" class="form-input" placeholder="مثال: 120 × 90 سم" />
+            </div>
+
+            <div class="form-group">
+              <label for="form-prod-medium" class="form-label">الخامات والتقنية</label>
+              <input type="text" id="form-prod-medium" class="form-input" placeholder="مثال: ألوان زيتية على كانفاس" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="form-prod-description" class="form-label">الوصف والتحليل الفني للعمل</label>
+            <textarea id="form-prod-description" class="form-textarea" rows="3"></textarea>
+          </div>
+
+          <div class="form-group"
+            style="display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-2);">
+            <input type="checkbox" id="form-prod-active" checked />
+            <label for="form-prod-active" style="cursor: pointer; font-size: var(--font-size-sm); font-weight: 600;">
+              تفعيل عرض هذا العمل الفني للعامة في المعرض الرئيسي
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="cancel-product-modal-btn">إلغاء</button>
+          <button type="submit" class="btn btn-primary" id="save-product-submit-btn">حفظ العمل الفني</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="js/admin.js"></script>
+</body>
+
+</html>

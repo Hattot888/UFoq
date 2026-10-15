@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="تسجيل الدخول إلى حسابك - معرض أفق للفنون المعاصرة">
+  <title>تسجيل الدخول | معرض أفق للفنون</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23A75D45'/%3E%3Cpath d='M8 24 L16 8 L24 24 Z' fill='%23FAF8F5'/%3E%3C/svg%3E">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo" aria-label="الرئيسية">
+        <span class="brand-title">أفُـــــق</span>
+        <span class="brand-subtitle">HORIZON CONTEMPORARY ART</span>
+      </a>
+
+      <div class="header-actions">
+        <a href="index.html" class="btn btn-outline btn-sm">&rarr; العودة للمعرض</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="auth-page-section">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1 class="auth-title">تسجيل الدخول</h1>
+        <p class="auth-subtitle">أهلاً بك مجدداً في معرض أفق للفنون المعاصرة</p>
+      </div>
+
+      <!-- Error Alert Box -->
+      <div id="auth-error-alert" class="demo-badge-bar" style="display: none; background-color: var(--color-error-bg); color: var(--color-error); border-color: #F2C2C2;" role="alert"></div>
+
+      <form id="login-form" novalidate>
+        <div class="form-group">
+          <label for="login-email" class="form-label">البريد الإلكتروني *</label>
+          <input
+            type="email"
+            id="login-email"
+            class="form-input"
+            required
+            placeholder="name@example.com"
+            autocomplete="email"
+            dir="ltr"
+            style="text-align: right;"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="login-password" class="form-label">كلمة المرور *</label>
+          <input
+            type="password"
+            id="login-password"
+            class="form-input"
+            required
+            placeholder="••••••••"
+            autocomplete="current-password"
+            dir="ltr"
+            style="text-align: right;"
+          />
+        </div>
+
+        <div style="margin-top: var(--space-6);">
+          <button type="submit" class="btn btn-primary btn-block btn-lg" id="login-submit-btn">
+            تسجيل الدخول
+          </button>
+        </div>
+      </form>
+
+      <div class="auth-footer">
+        ليس لديك حساب بعد؟ <a href="signup.html">إنشاء حساب مقتني جديد &larr;</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" style="margin-top: auto;">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>&copy; 2026 معرض أفق للفنون المعاصرة.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { initLoginForm } from './js/auth.js';
+    import { initCommonUI } from './js/common.js';
+    import { initStorefrontTracking } from './js/analytics.js';
+
+    function init() {
+      try {
+        initCommonUI();
+      } catch (err) {
+        console.error('Failed to initialize common UI:', err);
+      }
+
+      try {
+        initStorefrontTracking();
+      } catch (err) {
+        console.warn('Analytics initialization failed, continuing login flow:', err);
+      }
+
+      try {
+        initLoginForm();
+      } catch (err) {
+        console.error('Failed to initialize login form:', err);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  </script>
+</body>
+</html>
